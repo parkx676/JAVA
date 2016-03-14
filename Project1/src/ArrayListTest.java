@@ -1,0 +1,179 @@
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+
+public class ArrayListTest {
+	
+	ListInterface<String> words;
+	ListInterface<Double> grades;
+	ListInterface<Double> duplicatedGrades;
+	ListInterface<Puppy> basketOfPuppies;
+
+	@Before
+	public void setUp() {
+		words = new ArrayList<>();
+		grades = new ArrayList<>();
+		duplicatedGrades = new ArrayList<>();
+		basketOfPuppies = new ArrayList<>();
+		
+		// Adding to words
+		String[] wordsToBeAdded = {"Hello", "Goodbye", "Search", "Computer", "Technology"};
+		for (String word : wordsToBeAdded) {
+			words.add(word);
+		}
+		
+		// Adding to grades and duplicated grades
+		double[] gradesToBeAdded = {100.0, 99.2, 34.4, 85.0, 74.4, 100.0, 69.5};
+		for (double grade : gradesToBeAdded) {
+			grades.add(grade);
+			duplicatedGrades.add(grade);
+		}
+		
+		// Adding to the basket of puppies
+		Puppy[] puppiesToBeAdded = {new Puppy("Jasper"), new Puppy("Reo"), new Puppy("Dingo"), new Puppy("Byte")};
+		for (Puppy puppy : puppiesToBeAdded) {
+			basketOfPuppies.add(puppy);
+		}
+	}
+
+	@Test
+	public void testIsEmpty() {
+		boolean result;
+		
+		result = words.isEmpty();
+		assertFalse(result);
+		
+		result = grades.isEmpty();
+		assertFalse(result);
+		
+		result = duplicatedGrades.isEmpty();
+		assertFalse(result);
+		
+		basketOfPuppies = new ArrayList<>();
+		result = basketOfPuppies.isEmpty();
+		assertTrue(result);
+	}
+
+	@Test
+	public void testSize() {
+		int expected, result;
+		
+		expected = 5;
+		result = words.size();
+		assertEquals(expected, result);
+		
+		expected = 7;
+		result = grades.size();
+		assertEquals(expected, result);
+		
+		result = duplicatedGrades.size();
+		assertEquals(expected, result);
+		
+		expected  = 4;
+		result = basketOfPuppies.size();
+		assertEquals(expected, result);
+	}
+
+//	@Test
+//	public void testClear() {
+//		words.clear();
+//		grades.clear();
+//		duplicatedGrades.clear();
+//		basketOfPuppies.clear();
+//		
+//		assertTrue(words.isEmpty());
+//		assertTrue(grades.isEmpty());
+//		assertTrue(duplicatedGrades.isEmpty());
+//		assertTrue(basketOfPuppies.isEmpty());
+//	}
+
+	@Test
+	public void testContains() {
+		boolean result;
+		
+		result = words.contains("Hello");
+		assertTrue(result);
+		
+		result = words.contains("Magic");
+		assertFalse(result);
+		
+		result = grades.contains(100.0);
+		assertTrue(result);
+		
+		result = duplicatedGrades.contains(100.0);
+		assertTrue(result);
+		
+		result = grades.contains(50.0);
+		assertFalse(result);
+	}
+
+	@Test
+	public void testEqualsListInterfaceOfE() {
+		boolean result;
+		
+		result = grades.equals(duplicatedGrades);
+		assertTrue(result);
+		
+		result = words.equals(grades);
+		assertFalse(result);
+	}
+
+	@Test
+	public void testGet() {
+		String resultString = words.get(0);
+		assertTrue("Hello".equalsIgnoreCase(resultString));
+		
+		double resultDouble = grades.get(0);
+		assertTrue(resultDouble == 100.0);
+		
+		double resultDoubleTwo = duplicatedGrades.get(2);
+		double sameResultDouble = grades.get(2);
+		assertTrue(resultDoubleTwo == sameResultDouble);
+		
+		Puppy lastPuppy = basketOfPuppies.get(3);
+		assertTrue(lastPuppy.getName().equalsIgnoreCase("Byte"));
+	}
+
+	@Test
+	public void testIndexOf() {
+		int result;
+		
+		result = words.indexOf("Goodbye");
+		assertEquals(1, result);
+		
+		result = grades.indexOf(34.4);
+		assertEquals(2, result);
+	}
+
+	@Test
+	public void testRemove() {
+		words.remove(0);
+		grades.remove(0);
+		duplicatedGrades.remove(0);
+		duplicatedGrades.remove(0);
+		basketOfPuppies.remove(0);
+		
+		assertTrue("Goodbye".equalsIgnoreCase(words.get(0)));
+		assertTrue(99.2 == grades.get(0));
+		assertTrue(34.4 == duplicatedGrades.get(0));
+		assertTrue(basketOfPuppies.get(0).getName().equalsIgnoreCase("Reo"));
+	}
+
+	@Test
+	public void testSet() {
+		words.set(0, "Goodbye");
+		assertTrue("Goodbye".equalsIgnoreCase(words.get(0)));
+		
+		grades.set(0, 0.0);
+		assertTrue(grades.get(0) == 0.0);
+	}
+
+	@Test
+	public void testToArray() {
+		Object[] result = words.toArray();
+		assertTrue(result[0].equals("Hello"));
+	}
+
+}
